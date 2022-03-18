@@ -35,6 +35,7 @@ app.get('/', (req, res) => {
 })
 
 require('./app/routes/task.routes')(app)
+require('./app/routes/user.routes')(app)
 
 const PORT = 3000
 app.listen(process.env.PORT || PORT, () => {
