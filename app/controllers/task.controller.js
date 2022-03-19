@@ -1,8 +1,18 @@
 const db = require('../models/')
 const Task = db.tasks
+const jwt = require('jsonwebtoken');
 
 exports.findAll = (req, res) => {
-    Task.find()
+
+    const token = req.header('x-auth-token');
+    const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
+    let user_id = decoded.id;
+
+    Task.find(
+        {
+            user_id: user_id
+        }
+    )
         .then(tasks => {
             res.send(tasks)
         }).catch(err => {
@@ -36,7 +46,18 @@ exports.findOne = (req, res) => {
 }
 
 exports.create = (req, res) => {
+
+    const token = req.header('x-auth-token');
+    if (!token) return res.status(401).send({
+        message: 'No token provided.'
+    });
+
+    const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
+    let user_id = decoded.id;
+
+
     const task = new Task({
+        user_id: user_id,
         text: req.body.text,
         day: req.body.day,
         reminder: req.body.reminder,

@@ -4,10 +4,11 @@ const {
 
 module.exports = (mongoose) => {
     const schema = mongoose.Schema({
+        user_id: String,
         text: String,
         day: String,
         reminder: Boolean,
-        completed: Boolean
+        completed: Boolean,
     }, {
         timestamps: true
     })
