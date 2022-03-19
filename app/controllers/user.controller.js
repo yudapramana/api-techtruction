@@ -84,6 +84,7 @@ exports.login = (req, res) => {
                 'token': token
             });
             res.header('auth-token', token).send({
+                'user' : userData,
                 'token' : token
             });
         }).catch(err => {
