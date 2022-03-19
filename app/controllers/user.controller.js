@@ -83,7 +83,9 @@ exports.login = (req, res) => {
             let userData = Object.assign(user,{
                 'token': token
             });
-            res.header('auth-token', token).send(userData);
+            res.header('auth-token', token).send({
+                'token' : token
+            });
         }).catch(err => {
             res.status(500).send({
                 message: err.message || "Some error occurred while creating the user."
