@@ -80,7 +80,10 @@ exports.login = (req, res) => {
 
             // Create and assign token
             const token = jwt.sign({id: user.id}, process.env.TOKEN_SECRET);
-            res.header('auth-token', token).send(user);
+            let userData = Object.assign(user,{
+                'token': token
+            });
+            res.header('auth-token', token).send(userData);
         }).catch(err => {
             res.status(500).send({
                 message: err.message || "Some error occurred while creating the user."
